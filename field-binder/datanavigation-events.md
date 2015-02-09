@@ -54,7 +54,7 @@ binder.getNavigation().addCurrentItemChangeListener(new CurrentItemChange.Listen
 There is also a shorthand interface `CrudListeners` that implements all of the following listeners: `ItemCreate`, `ItemEdit`, `ItemRemove`, `OnCommit`, `OnDiscard`. If you need all of them you can just write `class MyController implements CrudListeners`. You can also tell a navigator to use all of the methods from a `CrudListeners` at once using:
 
 ```java
-   navigation.withStrategy(new MyController())
+   navigation.withBehavior(new MyController())
 ```
 
 
