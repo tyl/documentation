@@ -20,8 +20,8 @@ You may build a Zoom field to select the role for each person. The Zoom field wi
 
 ```java
 final Container.Indexed mainContainer = ... ;
-final FieldBinder fieldBinder = 
-       new FieldBinder(mainContainer).withDefaultBehavior();
+final FieldBinder<Person> fieldBinder = 
+       new FieldBinder<Person>(Person.class, mainContainer).withDefaultBehavior();
 
 final Container.Indexed zoomContainer = ... ;
 final TextZoomField zoomField = 
