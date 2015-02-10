@@ -48,3 +48,18 @@ searchField.getBackingField().addTextChangeListener((e) -> {
 
 ```
 
+
+## SearchFieldManager
+
+The `SearchFieldManager` (SFM) keeps track of several search fields; it maps a propertyId onto a SearchField instance. 
+
+The SFM is meant to hold a collection of fields that should be displayed when users want to perform a search (e.g., filtering a container). The fields in a SFM may be displayed in a custom form, or in a popup Window (using the SearchWindow). 
+
+If you have written a managed form using the FieldBinder, the search fields can replace the fields in your form, using the `replaceFields()` method of the `FieldBinderSearchFieldManager`:
+
+![replaceFields()](http://i.imgur.com/ITLrsrg.png)
+
+This is the default implementation of the `clearToFind()` action of the Navigator. An alternative implementation is available, using a popup form.
+
+
+
