@@ -4,17 +4,17 @@ Custom Search Fields are provided to provide default search features.
 
 Currently, two kinds of search fields are available 
 
-* FilterPatternTextField
-* FilterPatternComboBox
+* SearchPattern
+* SearchPatternComboBox
 
 For instance, the TextField can be instanced with
 
 ```java
-final FilterPatternTextField searchField = new FilterPatternTextField(propertyId, propertyType);
+final SearchPatternTextField searchField = new SearchPatternTextField(propertyId, propertyType);
 ```
 
 
-Both extend the abstract class `FilterPatternField`. A `FilterPatternField` returns a value that represents its pattern; upon request, it may also return a `SearchPattern` instance, using the method `getPatternFromValue()`.
+Both extend the abstract class `SearchPatternField`. A `SearchPatternField` returns a value that represents its pattern; upon request, it may also return a `SearchPattern` instance, using the method `getPatternFromValue()`.
 
 A `SearchPattern` is a very simple value class with two fields:
 
@@ -34,7 +34,7 @@ When the `getPatternFromValue()` method is invoked, the factory is invoked with 
 An alternative constructor is also available:
 
 ```java
-    public FilterPatternTextField(
+    public SearchPatternTextField(
     	Object propertyId, 
     	Class<?> propertyType, 
     	Container.Filterable targetContainer)
