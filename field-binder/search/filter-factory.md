@@ -75,7 +75,7 @@ The implementation of these conversions can be found in the `DefaultFilterFactor
 ### Lookup events (experimental)
 
    * ClearToFind
-   * Find
+   * OnFind
    
 The `DataNavigation` has experimental support for the *ClearToFind* and *Find* events. The ClearToFind event, "cleans" the fields of a FieldBinder for input, and makes it possible to perform a "search by example" (the same is obtained in a table using a pop-up window). These events can be attached using `ClearToFind.Listener` and `Find.Listener`, or both at once using `FindBehavior`.
 

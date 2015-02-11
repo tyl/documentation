@@ -87,16 +87,3 @@ The user can input a textual pattern, which will be translated into a Vaadin `Co
 For every other value, an exact match (`Equal`) is attempted.
 
 The implementation of these conversions can be found in the `DefaultFilterFactory`, which implements a `FilterFactory`. This factory is used by a `FilterApplier`, which in turn applies filters over a container in a `DataNavigation`. The `FilterApplier` class is used by the default listeners that are created with `DataNavigation.withDefaultBehavior()`.
-
-
-### How the "withDefaultBehavior()" method works
-
-
-The `DataNavigation.withDefaultBehavior()` method tries to guess the best predefined set of listeners for the container that the `DataNavigation` is currently pointing to.
-We will now outline how the resolving mechanism works. Besides `CrudBehavior` and `FindBehavior` there is a *third* short-hand interface that mixes in both of these interface with, in addition, `CurrentItemChange.Listener`; this is called the `Behavior` interface.
-
-The `DataNavigation` contains a `BehaviorFactory` instance. This Factory tries to guess which collection of built-in listeners suits better the current configuration, depending whether the navigation controls a FieldBinder or a ListTable and depending on which container the navigation is currently wrapping.
-
-When the `DataNavigation` controls a `FieldBinder`, then the factory is usually a `FieldBinderBehaviorFactory`; when it controls a `ListTable`, then this factory is usually a `TableBehaviorFactory`. In the case of this tutorial, your FieldBinder was controlled by a DataNavigation connected to a `FilterableListContainer`; thus the collection of listeners is taken from the `ListContainerBehavior` class. 
-
-When the `DataNavigation.withDefaultBehavior()` method is invoked, the `BehaviorFactory` is given the current container (`DataNavigation.getContainer()`); if applicable, the factory returns an instance of the `Behavior` interface
