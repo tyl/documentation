@@ -1,8 +1,8 @@
 # FieldBinder Tutorials
-  * [Short Tutorial](short-tutorial.md):
+  * [Short Tutorial](short.md):
   A short, but complete introduction to the FieldBinder
   
-  * [Extended Tutorial](extended-tutorial.md):
+  * [Extended Tutorial](extended.md):
   Revisiting the short tutorial with support for custom events
   
   * [Collection Tables](collection-tables.md)
