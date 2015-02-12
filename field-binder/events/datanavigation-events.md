@@ -1,5 +1,4 @@
-## DataNavigation
-
+# The DataNavigation interface and the Event System
 
 The `DataNavigation` interface implements navigation, CRUD (and experimentally) lookup methods for scanning through a Container. For instance, you can point to the first record
 
@@ -25,7 +24,7 @@ The `DataNavigation` interface defines several events that you can listen to.
 	* PrevItem
 	* LastItem
 	* CurrentItemChange
-	
+
 
 Because the DataNavigation object maintains an internal state, that is, a pointer to the "current" item id, for each other navigation event,  the `CurrentItemChange` event always fires. Therefore, if you want to hook into *every* navigation event, then you should listen to `CurrentItemChange`.
 
@@ -35,8 +34,8 @@ Because the DataNavigation object maintains an internal state, that is, a pointe
 	* ItemRemove
 	* AfterCommit, OnCommit, BeforeCommit
 	* OnDiscard
-	
- 	
+
+
 
 For instance, in order to listen to the `CurrentItemChange` event on the `binder` component use:
 
@@ -61,7 +60,7 @@ There is also a shorthand interface `CrudListeners` that implements all of the f
 
    * ClearToFind
    * Find
-   
+
 The `DataNavigation` has experimental support for the *ClearToFind* and *Find* events. The ClearToFind event, "cleans" the fields of a FieldBinder for input, and makes it possible to perform a "search by example" (the same is obtained in a table using a pop-up window). These events can be attached using `ClearToFind.Listener` and `Find.Listener`, or both at once using `FindBehavior`.
 
 
@@ -69,7 +68,7 @@ The `DataNavigation` has experimental support for the *ClearToFind* and *Find* e
 
 The default behavior for the ClearToFind event is to clear the fields when no filter has been applied; if a filter has been applied, the first click on the button will show the patterns that have been applied, and a second click will actually "clean" the search. Clicking the Find button will perform the search with the given criteria. For instance, in the example window of the picture, writing "Cor*" in the "First Name" field will find any Person whose name starts with the string "Cor"  
 
-![Find](http://i.imgur.com/1ls24gW.png) 
+![Find](http://i.imgur.com/1ls24gW.png)
 
 When a filter has been applied (that is, `Container.getContainerFilters().isEmpty()` is false), the optional `NavigationLabel` displays an asterisk near the count.
 
@@ -82,8 +81,8 @@ The user can input a textual pattern, which will be translated into a Vaadin `Co
   - `*foo`: for a limitation in `SimpleStringFilter`, this is equivalent to `*foo*`.
 
 - for integer-valued fields the following expression will generate Less, LessOrEqual, Greater, GreaterOrEqual, respectively: "<N", "<=N", ">N", ">=N". Where N is a number. For instance `>=10` on the field for property "age" will produce a `Compare.GreaterOrEqual("age", 10)`
- 
- 
+
+
 For every other value, an exact match (`Equal`) is attempted.
 
 The implementation of these conversions can be found in the `DefaultFilterFactory`, which implements a `FilterFactory`. This factory is used by a `FilterApplier`, which in turn applies filters over a container in a `DataNavigation`. The `FilterApplier` class is used by the default listeners that are created with `DataNavigation.withDefaultBehavior()`.
