@@ -57,7 +57,7 @@ The SFM is meant to hold a collection of fields that should be displayed when us
 
 If you have written a managed form using the FieldBinder, the search fields can replace the fields in your form, using the `replaceFields()` method of the `FieldBinderSearchFieldManager`:
 
-![replaceFields()](http://i.imgur.com/ITLrsrg.png)
+![replaceFields()](http://i.imgur.com/m0xhPEe.png)
 
 This is the default implementation of the `clearToFind()` action of the Navigator. An alternative implementation is available, using a popup form.
 
