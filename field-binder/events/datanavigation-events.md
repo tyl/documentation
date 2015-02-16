@@ -56,12 +56,12 @@ There is also a shorthand interface `CrudListeners` that implements all of the f
 
 
 
-### Lookup events (experimental)
+### Lookup events
 
    * ClearToFind
    * Find
 
-The `DataNavigation` has experimental support for the *ClearToFind* and *Find* events. The ClearToFind event, "cleans" the fields of a FieldBinder for input, and makes it possible to perform a "search by example" (the same is obtained in a table using a pop-up window). These events can be attached using `ClearToFind.Listener` and `Find.Listener`, or both at once using `FindBehavior`.
+The `DataNavigation` supports the *ClearToFind* and *Find* events. The ClearToFind event, "cleans" the fields of a FieldBinder for input, and makes it possible to perform a "search by example" (the same is obtained in a table using a pop-up window). These events can be attached using `ClearToFind.Listener` and `Find.Listener`, or both at once using `FindBehavior`.
 
 
 ![ClearToFind](http://i.imgur.com/AfrRFlT.png)
@@ -72,17 +72,4 @@ The default behavior for the ClearToFind event is to clear the fields when no fi
 
 When a filter has been applied (that is, `Container.getContainerFilters().isEmpty()` is false), the optional `NavigationLabel` displays an asterisk near the count.
 
-The user can input a textual pattern, which will be translated into a Vaadin `Container.Filter` automatically. Supported filters are currently:
-
-- for String-valued fields (`java.lang.String`) the following patterns generate a `SimpleStringFilter`:
-  - `foo`: every string that starts with `foo`
-  - `foo*`: same as above
-  - `*foo*`: every string that contains `foo`
-  - `*foo`: for a limitation in `SimpleStringFilter`, this is equivalent to `*foo*`.
-
-- for integer-valued fields the following expression will generate Less, LessOrEqual, Greater, GreaterOrEqual, respectively: "<N", "<=N", ">N", ">=N". Where N is a number. For instance `>=10` on the field for property "age" will produce a `Compare.GreaterOrEqual("age", 10)`
-
-
-For every other value, an exact match (`Equal`) is attempted.
-
-The implementation of these conversions can be found in the `DefaultFilterFactory`, which implements a `FilterFactory`. This factory is used by a `FilterApplier`, which in turn applies filters over a container in a `DataNavigation`. The `FilterApplier` class is used by the default listeners that are created with `DataNavigation.withDefaultBehavior()`.
+The user can input a textual pattern, which will be translated into a Vaadin `Container.Filter` automatically. For more information of filters see the [search](../search) section of the documentation.
