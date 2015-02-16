@@ -1,6 +1,6 @@
 ## Search Fields
 
-Custom Search Fields are provided to provide default search features.
+Custom Search Fields are provided to implement default search features.
 
 Currently, two kinds of search fields are available 
 
@@ -25,7 +25,7 @@ public class SearchPattern {
 }
 ```
 
-the `objectPattern` represents is value of the field, the `filter` is the `Container.Filter` instance to which the pattern corresponds. The pattern is generated from the pattern using a `FilterFactory` instance (currently, this instance is the `DefaultFilterFactory`).
+the `objectPattern` represents the value of the field, the `filter` is the `Container.Filter` instance to which the pattern corresponds. The Filter is generated from the pattern using a `FilterFactory` instance (currently, this instance is the `DefaultFilterFactory`).
 
 When the `getPatternFromValue()` method is invoked, the factory is invoked with the `propertyId`, the `propertyType` and the `value` of the field. 
 

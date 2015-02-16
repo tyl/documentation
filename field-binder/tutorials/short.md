@@ -167,7 +167,7 @@ A `ButtonBar` instance must be attached to a DataNavigation instance, so it is e
 or, on one line:
 
 ```java
-      new ButtonBar(binder.getNavigation().withDefaultBehavior()),
+      new ButtonBar(binder.getNavigation().withDefaultBehavior())
 ```
 
 The same can be done both for the navigation of a FieldBinder and the navigation of a ListTable. However, since the `Table` is also a Vaadin `Component` you can also make it generate an embedded button bar that is part of the `ListTable` itself. In this case you can write, as in the tutorial:
@@ -183,7 +183,7 @@ Otherwise, you can create a button bar using code similar to the FieldBinder's:
 ListTable<Address> addressList = 
             binder.buildListOf(Address.class, "addressList");
 ButtonBar addressListBar = new ButtonBar(addressList.getNavigation()
-                                                    .withDefaultBehavior()),
+                                                    .withDefaultBehavior());
 ```
 
 
