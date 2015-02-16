@@ -67,31 +67,34 @@ FieldBinders and Tables contain default behavior for simple forms (FieldBinder-b
 
 ### FieldBinders
 
-* `FieldBinders.CurrentItemChangeListener`
-* `FieldBinders.BaseCrud`
-* `FieldBinders.Find`
+* `FieldBinders.CurrentItemChangeListener`. Updates the contents of the fields when the current item of the navigation changes (e.g, on first(), next(), etc.)
+* `FieldBinders.BaseCrud`. Basic behavior for CRUD. This is only meant as a base class to be extended by more container-specific listeners. You can use it to define your own container-specific implementations, when one is not provided by this add-on.
+* `FieldBinders.Find`. Default find behavior: it replaces the visible fields with `SearchPatternFields` up until the `Find` event is fired (see the [Search](../search) section)
 
 ### Tables
 
-* `Tables.CurrentItemChangeListener`
-* `Tables.BaseCrud`
+* `Tables.CurrentItemChangeListener`. Updates the current selection in the table when the current item of the navigation changes.
+* `Tables.BaseCrud`. Basic behavior for table-based CRUD. Again, this is only meant as a base class to be extended by more container-specific listeners.
+
+Default find behavior for Tables is to use a popup window. This is provided by a separate component, since you might want to use search windows with a FieldBinder as well as tables.
 
 ### Search Window
 
-* `SearchWindowFindListeners`
+* `SearchWindowFindListeners`. Find listeners to display a popup search form. It internally uses a `SearchFieldManager`  (see the [Search](../search) section).
 
 
 ## Containers
 
 Supported containers are all bean/entity-based:
 
-* JPAContainer
 * ListContainer
+* JPAContainer
 * MongoContainer
 
-You can design your own classes for custom containers.
+You can design your own classes for custom containers. the `containers` packages contains one package for each type of container, with variants, depending whether the CRUD listeners are designed to be used with a FieldBinder-based form, or a table.
 
-## Loading Default Listeners
-
-
-For instance, suppose you want a JPAContainer-backed FieldBinder to display a search window. You will write:
+Container Type | FieldBinder CRUD   | Table CRUD
+---------------|--------------------|----------------------------
+ListContainer  | ListContainerCrud  | ListContainerTableCrud
+JPAContainer   | JPAContainerCrud   | JPAContainerTableCrud
+MongoContainer | MongoCrud          | BufferedMongoContainerCrud
