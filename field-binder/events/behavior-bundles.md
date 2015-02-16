@@ -41,9 +41,9 @@ binder.getNavigation()
 
 An alternative way to provide several listeners at once is through the `BehaviorFacade` class, which implements the `Behavior` interface  (see [DataNavigation Events](datanavigation-events.md)) by delegating all the methods to 3 objects that must be provided in its constructor:
 
-	* an implementation of `CurrentItemChange.Listener`
-	* an implementation of `CrudListeners`
-	* an implementation of `FindListeners`
+* an implementation of `CurrentItemChange.Listener`
+* an implementation of `CrudListeners`
+* an implementation of `FindListeners`
 
 Using the `BehaviorFacade` class the configuration above becomes:
 
