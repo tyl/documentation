@@ -4,7 +4,7 @@ Custom Search Fields are provided to provide default search features.
 
 Currently, two kinds of search fields are available 
 
-* SearchPattern
+* SearchPatternTextField
 * SearchPatternComboBox
 
 For instance, the TextField can be instanced with
