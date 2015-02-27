@@ -22,3 +22,4 @@ For instance, consider the `Address(state, city)` entity. Suppose you want to sh
         public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
             if (itemId != fieldBinder.getNavigation().getCurrentItemId()) return null;
 });``` 
+
