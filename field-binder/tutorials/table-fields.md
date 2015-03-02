@@ -1,4 +1,4 @@
-## Table Field Managements
+## Table Field Management
 
 Among the others, the most relevant difference between Grid and Table is that Table uses a *FieldFactory* to construct the Fields that will be used in *editing mode*;  Grid uses a *FieldGroup* instance that binds the propertyIds of the container to user-defined field instances. Grid's inline editing mode is also per-line, while Table is (by default) on all lines.
 
