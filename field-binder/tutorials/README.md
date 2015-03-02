@@ -5,7 +5,7 @@
   * [Extended Tutorial](extended.md):
   Revisiting the short tutorial with support for custom events
 
-  * [Tables and FieldBinder](extended.md):
+  * [Tables and FieldBinder](table-fields.md):
   Revisiting the extended tutorial with custom events on table fields
 
   * [Collection Tables](collection-tables.md)
