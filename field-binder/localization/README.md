@@ -73,7 +73,8 @@ ResourceBundles are automatically propagated to the CollectionTables. Thus, if `
 
 or, for example, using `properties`:
 
-```# com.example.MyFormStrings.properties
+```
+# com.example.MyFormStrings.properties
 firstName = Nome
 street = Strada
 city = Città
