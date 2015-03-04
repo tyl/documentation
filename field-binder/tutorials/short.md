@@ -1,6 +1,6 @@
 
 ## Short Tutorial
-We will create a simple Address Book, where each `Person` may have many `Address`es. 
+We will create a simple Address Book, where each `Person` may have many `Address`es.
 For conciseness, we will also use the [Viritin](https://github.com/viritin/viritin) addon, its `ListContainer` and the shorthand classes for Layouts. You do not need to add any further dependencies to your `pom`, though. The `field-binder` add-on depends on `Viritin` already. Now, let us write the following bean class for the Addresses:
 
 ```java
@@ -19,7 +19,7 @@ and the Person entity:
 ```java
 public class Person {
    private String firstName;
-   private String lastName; 
+   private String lastName;
    private Integer age;
    private Date birthDate;
    private List<Address> addressList = new ArrayList<Address>();
@@ -28,7 +28,7 @@ public class Person {
      this.firstName = firstName;
      this.lastName = lastName;
    }
-   
+
    /* ...getters and setters... */
 }
 ```
@@ -39,14 +39,14 @@ Now you are ready to define your Vaadin `UI`
 @Title("Short Tutorial")
 @Theme("valo")
 public class ShortTutorial extends UI {
-  
+
   // CONTAINER
-  
+
   // initialize an empty container
-  final FilterableListContainer<Person> container = 
+  final FilterableListContainer<Person> container =
                                     new FilterableListContainer<Person>(Person.class);
-  
-  // FIELD BINDER 
+
+  // FIELD BINDER
   // initialize the FieldBinder for the given container
   final FieldBinder<Person> binder = new FieldBinder<Person>(Person.class, container);
 
@@ -63,9 +63,9 @@ public class ShortTutorial extends UI {
           binder.build("lastName"),
           binder.build("birthDate"),
           binder.build("age"),
-          
+
           // optional: display the index of the currentItem in the container
-          new NavigationLabel(binder.getNavigation()) 
+          new NavigationLabel(binder.getNavigation())
 
       ).withFullWidth().withMargin(true),
 
@@ -83,7 +83,7 @@ public class ShortTutorial extends UI {
 }
 ```
 
-Start the Vaadin application: you have already a fully-functional master/detail editor in about 10 lines of actual code! 
+Start the Vaadin application: you have already a fully-functional master/detail editor in about 10 lines of actual code!
 
 Keep reading to know what happened under the hood, or skip to the next section for the extended tutorial.
 
@@ -94,7 +94,7 @@ Most of the code you have written is your regular Vaadin UI code. You only wrote
 As you will see, you wrote very little, because a lot has been done already on your behalf!
 
 
-#### Automatic Binding to a data source 
+#### Automatic Binding to a data source
 
 ```java
   final FieldBinder<Person> binder = new FieldBinder<Person>(Person.class, container);
@@ -114,7 +114,7 @@ Similarly to the `FieldGroup`, you can automatically `build()` fields for a give
           binder.build("firstName"),
           binder.build("lastName"),
           binder.build("birthDate"),
-          binder.build("age"),       
+          binder.build("age"),
 ```
 
 More `build()` methods are available, along the lines of Vaadin's `FieldGroup`:
@@ -145,9 +145,9 @@ Each `FieldBinder` that has been created with a `container` instance includes a 
       DataNavigation nav = binder.getNavigation()
 ```
 
-The `DataNavigation` acts as a controller for scanning through a `Container`. For instance, you can use `nav.first()` to make the FieldBinder point to the first Item in the Container. The `DataNavigation` instance also fires events for each command that it defines. For instance, `nav.first()` issues a `FirstItem.Event` that you can listen to using `nav.addFirstItemListener(FirstItem.Listener listener)`. 
+The `DataNavigation` acts as a controller for scanning through a `Container`. For instance, you can use `nav.first()` to make the FieldBinder point to the first Item in the Container. The `DataNavigation` instance also fires events for each command that it defines. For instance, `nav.first()` issues a `FirstItem.Event` that you can listen to using `nav.addFirstItemListener(FirstItem.Listener listener)`.
 
-The `DataNavigation.withDefaultBehavior()` tries to guess the best predefined set of listeners for the container that you are currently using. In the case of this tutorial, you are using a `FilterableListContainer`. 
+The `DataNavigation.withDefaultBehavior()` tries to guess the best predefined set of listeners for the container that you are currently using. In the case of this tutorial, you are using a `FilterableListContainer`.
 
 You are not required to delve into the details of this right now, but you can read more in the latter part of this document.
 
@@ -155,7 +155,7 @@ Each `ListTable` is also bound to a `DataNavigation` instance, which is kept in 
 
 
 
-#### `ButtonBar` generation 
+#### `ButtonBar` generation
 
 A `ButtonBar` instance must be attached to a DataNavigation instance, so it is enough to say:
 
@@ -178,9 +178,9 @@ The same can be done both for the navigation of a FieldBinder and the navigation
 
 Otherwise, you can create a button bar using code similar to the FieldBinder's:
 
- 
+
 ```java
-ListTable<Address> addressList = 
+ListTable<Address> addressList =
             binder.buildListOf(Address.class, "addressList");
 ButtonBar addressListBar = new ButtonBar(addressList.getNavigation()
                                                     .withDefaultBehavior());
@@ -196,10 +196,10 @@ The `ButtonBar` is a compound component that contains three distinct bars:
 You can also choose to pick only one; for instance, if you just want the buttons for CRUD on the `addressList`:
 
 ```java
-CrudButtonBar addressListBar = 
+CrudButtonBar addressListBar =
        new CrudButtonBar(addressList.getNavigation().withDefaultBehavior()),
 ```
 
 #### NavigationLabel
 
-This optional component shows the index of the current item and the total count of the items in the container that the `DataNavigation` is controlling.
+This optional component shows the index of the current item and the total count of the items in the container that the `DataNavigation` is controlling. An asterisk ( * ) will show if filters have been applied in Search mode.
