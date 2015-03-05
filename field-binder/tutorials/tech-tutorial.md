@@ -59,10 +59,10 @@ final ListTable<Address> addressList = binder.buildListOf(Address.class, "addres
 
 Fields are automatically built using one of the several<sup id="build-methods"><a href="#fn-build-methods">†</a></sup> `build()` methods. Currently:
 
-* `build(propertyId): Field<?>`
-* `build(caption, propertyId): Field<?>`
-* `build(propertyId, fieldType: Class<?>): Field<?>`
-* `build(caption, propertyId, fieldType: Class<?>): Field<?>`
+* `build(propertyId): T extends Field<?>`
+* `build(caption, propertyId): T extends Field<?>`
+* `build(propertyId, fieldType: Class<?>): T extends Field<?>`
+* `build(caption, propertyId, fieldType: Class<?>): T extends Field<?>`
 
 where `propertyId` is the property as it occurs in the given JavaBean class.
 For instance, if `Person(firstName, lastName, birthDate, age, addressList)`
@@ -77,24 +77,110 @@ generated** according to some rules that will be described later.
 A field type is a `Class<T extends Field<?>>`. E.g. `build("foo", ComboBox.class)` means
 you want the FieldBinder to generate a ComboBox for property `foo`.
 
+The **return type** of the `build()` method is automatically *casted* at *runtime*.
+A side-effect is that *unsafe assignments* are allowed. In other words:
 
+```java
+final TextField date = fieldBinder.build("birthDate");
+```
+
+may throw a `ClassCastException` if the type of the `birthDate` property causes
+the `fieldBinder` to generate a `DateField`. It is therefore advisable to pay attention to
+the type of the variable to which you are assigning the return value of `build()`.
+
+It might be safer sometimes to use the alternative version:
+
+```java
+final DateField date = fieldBinder.build("birthDate", DateField.class);
+```
+Please notice that, however, even this alternative cannot be guaranteed to succeed
+if the given fieldType is not compatible with the given propertyId; e.g, consider:
+
+```java
+final DateField firstName = fieldBinder.build("firstName", DateField.class);
+```
+this will throw an exception, because property `firstName` is a `String`.
+Actual generation of fields based on data types is delegated  a
+`FieldBinderFieldFactory` instance, which is a subclass of Vaadin's
+`FieldGroupFieldFactory` with a few customizations.
+
+
+### Binding Fields and Unsupported Fields
+
+You are not free *not* to use the `build()` command to auto-generate and
+bind fields to a data source, but you will probably find more convenient to do so.
+
+Sometimes, you might want to declare and instantiate fields manually, and *yet*,
+get FieldBinder to manage their binding automatically. For instance, third-party
+fields (e.g., third-party add-ons) cannot be automatically generated
+by the FieldBinder, because FieldBinder is unaware of their existance.
+
+The `bind()` command makes it possible to bind these fields to a datasource.
+
+```java
+bind(field: T extends Field<?>, propertyId): T
+```
+
+The particular method signature lets you use the idiom
+
+```java
+final MyCustomField customField = fieldBinder.bind(new MyCustomField(...), "somePropertyId");
+```
+
+**instead** of the classic:
+
+```java
+final MyCustomField customField = new MyCustomField(...);
+fieldGroup.bind(customField, "somePropertyId")
+```
+
+(which you can still do, though.)
+
+
+### Collection Tables
+* `buildCollectionOf(containedBeanClass: Class<?>, propertyId): CollectionTable`
+* `buildListOf(containedBeanClass: Class<?>, propertyId): ListTable`
+
+These methods build a CollectionTable or a ListTable for detail views. The special method
+signature is required because you have to specify the *type* of the bean that the collection
+contains. In other words, if the `Person` bean contains an `addressList` of type `List<Address>`
+FieldBinder needs you to specify the type of the contained class `Address.class`:
+
+```java
+ListTable<Address> addressList = fieldBinder.buildListOf(Address.class, "addressList");
+```
+
+This is a limitation due to Java's type erasure.
+
+### Zoom and DrillDown Fields
+* `buildZoomField(propertyId, containerPropertyId, zoomedContainer): TextZoomField`
+* `buildDrillDownField(propertyId, containerPropertyId, zoomedContainer): TextZoomField`
+
+These methods build `ZoomFields`. The special signature is required a proper
+configuration of these fields requires more parameters than other simpler fields.
+
+In particular, beside the `propertyId` the **value** of the field is **bound to**,
+ZoomFields require:
+
+* the `containerPropertyId` that is **displayed** in the field
+* the *container* instance on which the zooming will occur.
+
+For instance, suppose you have a property `licensePlateNumber` for a `CarOwner` class,
+and you want to zoom over a collection of `Vehicles(licensePlate, model, color, ...)`.
+
+* the `propertyId` is `licensePlateNumber`
+* the `containerPropertyId` is `licensePlate`
+* the `container` instance would be some datasource from where you pull license plate numbers
+
+### Other Shorthands
 
 * `buildAll(): Collection<Field<?>>`
 * `buildAll(propertyIds...): Collection<Field<?>>`
 * `buildAll(propertyIdCollection): Collection<Field<?>>`
 
 
-### Collection Tables
-* `buildCollectionOf(objectClass, propertyId): CollectionTable`
-* `buildListOf(objectClass, propertyId): ListTable`
-
-...
-
-### Zoom and DrillDown Fields
-* `buildZoomField(propertyId, containerPropertyId, zoomedContainer): TextZoomField`
-* `buildDrillDownField(propertyId, containerPropertyId, zoomedContainer): TextZoomField`
-
-...
+These methods build all the given property ids. In the first case, all the known
+properties of the given Bean Class will be used.
 
 
 
