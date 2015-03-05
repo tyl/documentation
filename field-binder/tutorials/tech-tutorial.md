@@ -70,6 +70,11 @@ is a JavaBean, that is a class
 where each `firstName`, `lastName` is represented through the pairs `getFirstName()`,
 `setFirstName()` etc., then `firstName`, `lastName` etc. are called *properties*
 of the Java Bean, and each `firstName`, `lastName` etc. is called a *property id*.
+**Nested** property ids are usually supported as well. A *nested* property id is a property
+id of the form "foo.bar.baz", which means that property `baz` can be accessed using:
+`currentValue.getFoo().getBar().getBaz()`
+
+
 
 A *caption* is a string describing the field. If it is omitted, then it is **automatically
 generated** according to some rules that will be described later.
@@ -156,21 +161,63 @@ This is a limitation due to Java's type erasure.
 * `buildZoomField(propertyId, containerPropertyId, zoomedContainer): TextZoomField`
 * `buildDrillDownField(propertyId, containerPropertyId, zoomedContainer): TextZoomField`
 
-These methods build `ZoomFields`. The special signature is required a proper
-configuration of these fields requires more parameters than other simpler fields.
+These methods build `ZoomFields`. A ZoomField has a special *Zoom* button (by default
+denoted by a magnifying glass) which displays a *Zoom Window* from which a value can
+be selected. When a value is selected in the window, it is assigned to the Field.
+
+Proper configuration of these fields requires more parameters than that of other simpler fields,
+from which the particular method signature stems.
 
 In particular, beside the `propertyId` the **value** of the field is **bound to**,
 ZoomFields require:
 
-* the `containerPropertyId` that is **displayed** in the field
+* the (possibly *nested*) `containerPropertyId` that is **displayed** in the field
 * the *container* instance on which the zooming will occur.
 
-For instance, suppose you have a property `licensePlateNumber` for a `CarOwner` class,
-and you want to zoom over a collection of `Vehicles(licensePlate, model, color, ...)`.
+Further options may be specified using `.with*()` methods.
+For instance, the default mode of operation for the ZoomField is `Mode.FullValue`. You can also
+set it to the alternative mode of operation `Mode.PropertyOnly` using
+`myZoomField.withMode(Mode.PropertyOnly)`
 
-* the `propertyId` is `licensePlateNumber`
-* the `containerPropertyId` is `licensePlate`
-* the `container` instance would be some datasource from where you pull license plate numbers
+#### Mode.FullValue
+
+In the `FullValue` mode, when a value is selected in the Zoom window, the **selected** bean
+is assigned to the field. For instance, suppose you have classes:
+
+```java
+  CarOwner(firstName, lastName, birthDate, vehicle)
+  Vehicle(licensePlate, model, color)`.
+```
+
+A ZoomField might be defined as such:
+
+```java
+final Container.Indexed vehicleDataSource = ... ;
+final TextZoomField vehicle = fieldBinder.buildZoomField("vehicle", "licensePlate", vehicleDataSource);
+```
+
+In this case, when a value is selected from the ZoomWindow, its `licensePlate`
+will be **displayed** and the **entire** `Vehicle` instance will be **assigned** to the `vehicle` property of the current `Person` instance.
+
+#### Mode.PropertyOnly
+
+In the `PropertyOnly` mode, when a value is selected the given `containerPropertyId` is set as the value of the field.
+In this case, suppose the example above is redefined as follows:
+
+```java
+  CarOwner(firstName, lastName, birthDate, licensePlateNumber)
+  Vehicle(licensePlate, model, color)`.
+```
+
+In this case, you may define a ZoomField as follows:
+
+```java
+final Container.Indexed vehicleDataSource = ... ;
+final TextZoomField vehicle = fieldBinder.buildZoomField("licensePlateNumber", "licensePlate", vehicleDataSource);
+```
+
+In this case, when a value is selected from the ZoomWindow, its `licensePlate`
+will be both **displayed** and **assigned** to the `licensePlateNumber` property of the current `Person` instance.
 
 ### Other Shorthands
 
