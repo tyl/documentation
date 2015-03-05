@@ -86,7 +86,7 @@ The demo uses [vaadin4spring](https://github.com/peholmst/vaadin4spring) for con
 The documentation is divided into two categories: [User](user) and [Dev](dev). User documentation contains less technical details. Dev documentation is more in-depth and it is suggested as an introductory reading before delving into the details of the advanced usage of the FieldBinder.
 
 * [User](user)
-  * [Tutorials](tutorials)
+  * [Tutorials](user/tutorials)
   * [Built-in Event System](user/events)
   * [Localization](user/localization)
 * [Dev](dev)
