@@ -407,6 +407,44 @@ new BehaviorFacade(new Tables.CurrentItemChangeListener(table),
 ```
 
 
+## Default Editor Bar on CollectionTables
+
+A FieldBinder is not a Vaadin `Component`; in other words, you cannot add a FieldBinder to
+a Layout, because it is entirely a non-visual component. ButtonBars can be attached
+to the DataNavigation of a FieldBinder using `new ButtonBar(fieldBinder.getNavigation())`.
+
+The same can be done for CollectionTables: `new ButtonBar(addressList.getNavigation())`,
+or `new CrudButtonBar(addressList.getNavigation())` if you only want a CRUD bar.
+A `CollectionTable`, on the other hand, is also a visual component. For convenience,
+it is therefore possible to configure the CollectionTable to display an embedded CRUD bar, 
+using the `withDefaultEditorBar()` method. E.g.:
+
+```java
+myLayout.addComponents(
+	...
+	addressList.withDefaultEditorBar()
+);
+```
+
+This is **almost** equivalent to:
+
+```java
+myLayout.addComponents(
+  addressList, 
+  new CrudButtonBar(addressList.getNavigation().withDefaultBehavior())
+);
+```
+
+It is however different: in the first case, an *embededded* CrudButtonBar 
+will be drawn *within* the boundaries of the `addressList` `Component`, 
+while, in the second case,  a *stand-alone* CrudButtonBar  will be added 
+to the `myLayout` layout. 
+This is a subtle difference, but you have to keep it in mind when you need to 
+fine-tune the way things are displayed.
+
+If you have particular layout requirements, it is advisable that you use the
+stand-alone version.
+
 ---------------------------------------------------------------------------------
 
 #### Footnotes
