@@ -233,12 +233,108 @@ properties of the given Bean Class will be used.
 
 ### Caption Generation
 
+The default strategy for caption generation (when it is omitted) is to split
+camel-cased property ids. For instance, "firstName" will become "First Name".
+However, it is also possible to specify a resource bundle using
+
+```java
+fieldBinder.withResourceBundle(resBundle)
+```
+
+In this case, for a given `propertyId` the system will look for a key in the
+given ResourceBundle. If the key is still missing, the system will
+fall back to the usual "splitting" implementation.
+
+
+## Configuring Listeners Manually
+
+Listeners on a DataNavigation can be configured manually or automatically.
+Automatic *behavior* loading is achieved through `fieldBinder.withDefaultBehavior()`
+(described later). Listeners can be still loaded and implemented manually.
+The only requirement is that configuration of pre-defined listeners is assumed to
+occur before *custom* listeners.
+
+
+In other words, **do not** do this:
+
+```java
+fieldBinder.getNavigation().addItemEditListener(e -> { /* custom stuff here */ });
+... then later ...
+fieldBinder.getNavigation().withDefaultBehavior();
+```
+
+because your custom logic may interact in unexpected ways with the pre-defined implementations.
+Instead **do** load default behavior **before** your custom event listeners:
+
+```java
+fieldBinder.getNavigation().withDefaultBehavior();
+... then later ...
+fieldBinder.getNavigation().addItemEditListener(e -> { /* custom stuff here */ });
+```
+
+Load pre-defined behavior implementations using the short-hands:
+
+* `withCurrentItemChangeListenerFrom(...)`
+* `withCrudListenersFrom(...)`
+* `withFindListenersFrom(...)`
+* `withBehavior(...)` for all of the above at once.
+
+and all the simple, Vaadin-style event listener APIs
+
+* `add<X>listener(<X>.Listener)`
+* `remove<X>listener(<X>.Listener)`
+
+where `<X>` is one `CurrentItemChange`, `OnFind`, `OnCommit`, etc. The `withBehavior()` method
+requires to use an implementation of the `Behavior` interface, which is an interface
+that extends all the *main* event listeners.
+
+Pre-defined implementations can be found in package `org.tylproject.vaadin.addon.fieldbinder.behavior.commons`
+for the base behaviors for FieldBinder and Table, and `org.tylproject.vaadin.addon.fieldbinder.behavior.containers` for
+container-specific CRUD implementations.
+
+Pre-defined implementations come as disjoint implementation of the following interfaces:
+
+* `CurrentItemChange.Listener` 
+* `FindListeners`, which extends the main search-related listeners: OnFind, OnClearToFind
+* `CrudListener`, which extends the main CRUD-related listeners: OnCommit, OnDiscard, ItemEdit, ItemCreate, ItemRemove
+
+A few other listeners are available, see the JavaDoc for more information.
+
+For instance, the demo `TutorialAlternativeFind.java` loads the popup search implementation for the FieldBinder using:
+
+```java
+binder.getNavigation()
+    .withCurrentItemChangeListenerFrom(new FieldBinders.CurrentItemChangeListener<>(binder))
+    .withCrudListenersFrom(new ListContainerCrud<>(binder))
+    .withFindListenersFrom(new SearchWindowFindListeners(binder));
+```
+
+
+
+The `withBehavior(Behavior)` can be alternative used through the utility class `BehaviorFacade`:
+
+```java
+binder.getNavigation()
+    .withBehavior(new BehaviorFacade(
+			new FieldBinders.CurrentItemChangeListener<>(binder),
+    			new ListContainerCrud<>(binder),
+			new SearchWindowFindListeners(binder)));
+```
+
+These two usage patterns are basically equivalent, but the second is the one on which
+the default behavior loading mechanism is founded.
+
 
 ## Default Behaviors
 
-The method `withDefaultBehavior()` delegates the creation of a collection
-of pre-defined event listeners to the `BehaviorFactory`; then sets all the
-listeners at once, using the shorthand method `withBehavior(behaviorClass)`:
+The method `fieldBinder.withDefaultBehavior()` delegates the creation of a collection
+of pre-defined event listeners to the `BehaviorFactory` that FieldBinder contains;
+then the method sets all the listeners at once, using the shorthand method
+`withBehavior(behaviorClass)`.
+
+The BehaviorFactory, and therefore the `withDefaultBehavior()` method,
+will throw an error if a valid behavior implementation cannot be find for
+the current configuration.
 
 ```java
 binder.getNavigation().withDefaultBehavior();
@@ -291,9 +387,23 @@ must be able to refer these components to interact with them.
 
 This is an implementation detail that may change in the future.
 
+Because the most configuration-dependent logic is in CRUD, Find-related listeners
+and Navigation-related listeners in these factories are configured separately
+from the CRUD listeners. In particular:
+
+* a FieldBinder- or Table-specific CurrentItemChange.Listener is loaded
+* Find listeners are loaded:
+  * the default `FindListeners` implementation for FieldBinder
+    replaces fields with SearchFields and then restores them when the `find()` method is invoked.
+  * Table uses a SearchWindow, which displays the search fields in a modal dialog
+    This implementation may be used for the FieldBinder as well, though, by configuring
+    listeners manually
 
 
-### Caveats
+*
+
+
+
 
 ---------------------------------------------------------------------------------
 
