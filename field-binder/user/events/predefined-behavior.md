@@ -30,7 +30,7 @@ Therefore, in order for the `withDefaultBehavior()` to work, the `DataNavigation
 In these cases, you might want to declare the container type, without passing a real container instance.
 
 
-## Declaring a Container type
+## Declaring a Container type (deprecated in v1.4)
 
 If the DataNavigation is *not* bound to a Container instance when the ``.withDefaultBehavior()` the DataNavigation may throw an `IllegalStateException`; it is possible to avoid this situation by declaring beforehand the *expected* type of the container that the Navigation should hold.
 

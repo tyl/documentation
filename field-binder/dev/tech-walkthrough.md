@@ -139,7 +139,7 @@ final MyCustomField customField = new MyCustomField(...);
 fieldGroup.bind(customField, "somePropertyId")
 ```
 
-(which you can still do, though.)
+(that you can still do, though.)
 
 
 ### Collection Tables

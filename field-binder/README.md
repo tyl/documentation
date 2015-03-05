@@ -83,6 +83,13 @@ The demo uses [vaadin4spring](https://github.com/peholmst/vaadin4spring) for con
 
 ## Documentation
 
-* [Tutorials](tutorials)
-* [Built-in Event System](events)
-* [Built-in Search Feature](search)
+The documentation is divided into two categories: [User](user) and [Dev](dev). User documentation contains less technical details. Dev documentation is more in-depth and it is suggested as an introductory reading before delving into the details of the advanced usage of the FieldBinder.
+
+* [User](user)
+  * [Tutorials](tutorials)
+  * [Built-in Event System](user/events)
+  * [Localization](user/localization)
+* [Dev](dev)
+  * [Technical Walkthrough](dev/tech-walkthrough.md) 
+  * [Built-in Search Feature](dev/search)
+
