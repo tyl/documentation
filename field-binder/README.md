@@ -91,5 +91,10 @@ The documentation is divided into two categories: [User](user) and [Dev](dev). U
   * [Localization](user/localization)
 * [Dev](dev)
   * [Technical Walkthrough](dev/tech-walkthrough.md) 
+  * [Dev Details on the Built-in Event System](dev/events)
   * [Built-in Search Feature](dev/search)
 
+### Contributing
+
+If you want to contribute to the development of the FieldBinder Add-on we suggest you to take some time read the **Dev** documentation
+and get you confident with the source code. Among welcome extensions are contributions to Container CRUD implementations, both if they are already  supported (e.g., bug-fixes) and if they are completely new.
