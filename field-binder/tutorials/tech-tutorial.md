@@ -309,6 +309,8 @@ binder.getNavigation()
     .withFindListenersFrom(new SearchWindowFindListeners(binder));
 ```
 
+As you can see, the `binder` instance may have to be handed to the listener implementations
+because they may need to access it to perform some operations.
 
 
 The `withBehavior(Behavior)` can be alternative used through the utility class `BehaviorFacade`:
@@ -357,7 +359,8 @@ different methods from those of a MongoContainer; therefore, implementations mus
 But also, the behavior for a Table (e.g., a detail view) differs from the behavior
 of a non-tabular form; thus, even these case must be differentiated. There exist **two**
 pre-defined BehaviorFactory implementations, which differ in that one, indeed, deals
-with tabular forms (CollectionTables <a id="collectiontables" href="#fn-collectiontables"> * </a>), and the other with non-tabular forms (just simple FieldBinders).
+with tabular forms (CollectionTables <a id="collectiontables" href="#fn-collectiontables"> * </a>), 
+and the other with non-tabular forms (just simple FieldBinders).
 
 * `DefaultBehaviorFactory` for FieldBinders
 * `DefaultTableBehaviorFactory` for CollectionTables (and subclasses)
@@ -375,34 +378,33 @@ public FieldBinder(Class<T> beanClass, Container.Ordered container) {
 ```
 
 
-When you create a class of the  CollectionTable hierarchy (manually, e.g., `new BeanTable(...)`
-or automatically, via `fieldBinder.buildListOf(...)`), a `DefaultTableBehaviorFactory`
-is created, with a reference to the current CollectionTable
+Also, when you create a class of the  CollectionTable hierarchy 
+(manually, e.g., `new BeanTable(...)` or automatically, via 
+`fieldBinder.buildListOf(...)`), a `DefaultTableBehaviorFactory`
+is created and assigned to them, with a reference to the current CollectionTable
 
 
 The reason why a reference to the FieldBinder or the tabular widget is given
-to the factory, is that, **the generated Behavior classes** MUST be handed this reference
+to the factory, is that, **the generated Behavior classes** might need to be handed this reference
 as well: this is because the behavior implementations (especially, with respect to CRUD)
 must be able to refer these components to interact with them.
 
 This is an implementation detail that may change in the future.
 
-Because the most configuration-dependent logic is in CRUD, Find-related listeners
-and Navigation-related listeners in these factories are configured separately
-from the CRUD listeners. In particular:
 
-* a FieldBinder- or Table-specific CurrentItemChange.Listener is loaded
-* Find listeners are loaded:
-  * the default `FindListeners` implementation for FieldBinder
-    replaces fields with SearchFields and then restores them when the `find()` method is invoked.
-  * Table uses a SearchWindow, which displays the search fields in a modal dialog
-    This implementation may be used for the FieldBinder as well, though, by configuring
-    listeners manually
+The `behaviorFactory.forContainerType()` method in the default implementation
+returns a `BehaviorFacade` that composes a container-agnostic implementation
+(but form-type-dependent — whether it is a tabular widget or a non-tabular, form) 
+of the `CurrentItemChange.Listener`, `FindListeners` interfaces, 
+and a container-, form-type-dependent implementation of the `CrudListeners` interface.
 
+For instance, a BeanTable<Person> backed by a JPAContainer would result (equivalently) in:
 
-*
-
-
+```java
+new BehaviorFacade(new Tables.CurrentItemChangeListener(table), 
+                   new JPAContainerTable<>(...), 
+                   new SearchForm(...));
+```
 
 
 ---------------------------------------------------------------------------------
