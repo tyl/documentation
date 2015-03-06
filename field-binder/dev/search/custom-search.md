@@ -50,4 +50,5 @@ public class CustomFind<T> extends FieldBinders.Find<T> {
 
 The same can be done for the popup search dialog `SearchWindowFindListeners`, which is also used as the default Search UI for tables.
 
+
   
