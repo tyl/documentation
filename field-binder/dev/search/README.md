@@ -6,3 +6,5 @@
   * [Filter Factory](filter-factory.md).
     Details on the configuration of the `FilterFactory` by which text
     patterns are translated into Vaadin `Filter` objects
+  * [Customize Search](custom-search.md). 
+    Customizing the search function.

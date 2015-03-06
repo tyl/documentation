@@ -93,6 +93,7 @@ The documentation is divided into two categories: [User](user) and [Dev](dev). U
   * [Technical Walkthrough](dev/tech-walkthrough.md) 
   * [Dev Details on the Built-in Event System](dev/events)
   * [Built-in Search Feature](dev/search)
+  * [Customizing Zoom Fields](dev/zoomfields)
 
 ### Contributing
 
