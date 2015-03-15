@@ -89,7 +89,7 @@ Keep reading to know what happened under the hood, or skip to the next section f
 
 ### What You Have Done
 
-Most of the code you have written is your regular Vaadin UI code. You only wrote about 10 lines of code. But has happened under the hood?  Let us have a look at the `FieldBinder`-specific code.
+Most of the code you have written is your regular Vaadin UI code. You only wrote about 10 lines of code. But what has happened under the hood?  Let us have a look at the `FieldBinder`-specific code.
 
 As you will see, you wrote very little, because a lot has been done already on your behalf!
 
