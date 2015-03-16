@@ -18,7 +18,7 @@ The `value` for this wrappers is the `collection` of beans that the Table shows.
    <dd> Almost equivalent to `CollectionTable<T, List<T>>` (it would be an alias if Java supported type aliases). 
    
 <dt> BeanTable<T>
-  <dd> A ListTable<T> implementation designed to be stand-alone. In order to use
+  <dd> A ListTable<T> implementation designed to be stand-alone. 
   
 </dl>
 

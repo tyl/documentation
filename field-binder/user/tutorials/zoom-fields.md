@@ -23,7 +23,7 @@ public class Role {
 }
 ```
 
-You may build a Zoom field to select the role for each person. The Zoom field will open a table view that shows all the details of a `Role` collection. The collecton of roles should be accessible through a `container` (if it is a simple collection, you may use a `ListContainer`).
+You may build a Zoom field to select the role for each person. The Zoom field will open a table view that shows all the details of a `Role` collection. The collection of roles should be accessible through a `container` (if it is a simple collection, you may use a `ListContainer`).
 
 ```java
 final Container.Indexed mainContainer = ... ;
@@ -37,7 +37,7 @@ final TextZoomField zoomField =
 ```
 
 
-The auto-generated ZoomField is already pre-configured with a default `ZoomDialog` implementation. The default is to use a Vaadin table, but Grid support is already baked in.
+The auto-generated ZoomField is already pre-configured with a default `ZoomDialog` implementation. A `ZoomDialog` is an interface that implements the content of the dialog that is displayed at the click of the Zoom button. The default implementation uses a Vaadin table, but Grid support is already baked in (for more details see [the developer documentation](../../../dev/zoomfields/custom-zoom.md)).
 
 
 ZoomFields can be instanced manually with: 
