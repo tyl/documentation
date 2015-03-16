@@ -112,7 +112,7 @@ Actual generation of fields based on data types is delegated  a
 
 ### Binding Fields and Unsupported Fields
 
-You are not free *not* to use the `build()` command to auto-generate and
+You are free *not* to use the `build()` command to auto-generate and
 bind fields to a data source, but you will probably find more convenient to do so.
 
 Sometimes, you might want to declare and instantiate fields manually, and *yet*,
