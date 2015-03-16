@@ -1,5 +1,15 @@
 
 ## Short Tutorial
+This tutorial assumes you are using the default Maven project archetype `vaadin-archetype-application`:
+
+
+```bash
+$ mvn archetype:generate \
+           -DarchetypeGroupId=com.vaadin \
+           -DarchetypeArtifactId=vaadin-archetype-application \
+           -DarchetypeVersion=LATEST
+```
+
 We will create a simple Address Book, where each `Person` may have many `Address`es.
 For conciseness, we will also use the [Viritin](https://github.com/viritin/viritin) addon, its `ListContainer` and the shorthand classes for Layouts. You do not need to add any further dependencies to your `pom`, though. The `field-binder` add-on depends on `Viritin` already. Now, let us write the following bean class for the Addresses:
 
@@ -37,7 +47,8 @@ Now you are ready to define your Vaadin `UI`
 
 ```java
 @Title("Short Tutorial")
-@Theme("valo")
+@Theme("mytheme")
+@Widgetset("com.example.fieldbinder.MyAppWidgetset")
 public class ShortTutorial extends UI {
 
   // CONTAINER
@@ -78,6 +89,12 @@ public class ShortTutorial extends UI {
   @Override
   protected void init(VaadinRequest request) {
     setContent(mainLayout);
+  }
+
+
+  @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+  @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+  public static class MyUIServlet extends VaadinServlet {
   }
 
 }
